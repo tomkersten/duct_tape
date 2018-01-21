@@ -105,6 +105,9 @@ write a file named `duct-tape-domain.some-domain.com` into the mounted
 configuration entry.
 
 ```
+const fs = require('fs');
+const path = require('path');
+
 export default function AppConfig(env) {
   let config = {
     production: {
