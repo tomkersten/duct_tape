@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+ORG="tietgenlabs"
+APP_NAME=`grep '"name":' package.json  | awk '{print $2}' |sed -e 's/[",]//g'`
+VERSION=`grep '"version":' package.json  | awk '{print $2}' |sed -e 's/[",]//g'`
+HUB_NAME="$ORG/$APP_NAME"
+
+echo "Building '$HUB_NAME:$VERSION'..."
+docker build -t $HUB_NAME ./ && docker tag $HUB_NAME $HUB_NAME:$VERSION && echo "Built & tagged '$HUB_NAME:$VERSION'..."

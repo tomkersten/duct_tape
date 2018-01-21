@@ -1,0 +1,11 @@
+version: '2'
+services:
+  server:
+    build: .
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./config:/opt/app/config:ro
+      - ./shared_volume:/opt/app/shared_volume:rw
+    ports:
+      - 9000:9000

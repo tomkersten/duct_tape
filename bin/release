@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+#
+# Prepare and push a new release for the project
+# in both the local git repository and on Github
+# "Releases."
+#
+# Prerequisites:
+#   You must have the following npm packages installed and available
+#   on your path:
+#     - trash
+#     - conventional-recommended-bump
+#     - conventional-changelog-cli
+#     - conventional-github-releaser
+#     - conventional-commits-detector
+#     - json
+#
+#   These are in the dev dependencies of this project, but, if you don't
+#   have `node_modules/bin` in your path, they may not work. So, if you
+#   want the command to install them globally, here you go...
+#
+#     npm install -g trash conventional-recommended-bump conventional-changelog-cli conventional-github-releaser conventional-commits-detector json
+#
+#
+# Usage:
+#
+#   On a clean repository index, issue:
+#
+#     ./bin/release
+#
+function np {
+#    travis status --no-interactive &&
+    trash node_modules &>/dev/null;
+    git pull --rebase &&
+    npm install &&
+
+    #npm test &&
+    cp package.json _package.json &&
+    preset=`conventional-commits-detector` &&
+    bump=`conventional-recommended-bump -p angular` &&
+    npm --no-git-tag-version version ${1:-$bump} &>/dev/null &&
+    conventional-changelog -n ./bin/conventional_changelog_config.json -i CHANGELOG.md -s -p ${2:-$preset} &&
+    git add CHANGELOG.md &&
+    version=`cat package.json | json version` &&
+    git commit -m"docs(CHANGELOG): $version" &&
+    mv -f _package.json package.json &&
+    npm version ${1:-$bump} -m "chore(release): %s"
+    git push --follow-tags &&
+    conventional-github-releaser -n ./bin/conventional_changelog_config.json -p ${2:-$preset}
+    #npm publish
+}
+
+preset="angular"
+np

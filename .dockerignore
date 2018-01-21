@@ -1,0 +1,11 @@
+log
+node_modules
+config/*
+bin
+docker-compose*
+example_ssh_config.txt
+example_deploy.sh
+deployment_triggers/*
+README.md
+CHANGELOG.md
+Dockerfile
