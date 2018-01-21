@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+ORG=`grep '"dockerHubOrg":' package.json  | awk '{print $2}' |sed -e 's/[",]//g'`
+APP_NAME=`grep '"name":' package.json  | awk '{print $2}' |sed -e 's/[",]//g'`
+VERSION=`grep '"version":' package.json  | awk '{print $2}' |sed -e 's/[",]//g'`
+HUB_NAME="$ORG/$APP_NAME"
+
+echo "Releasing $HUB_NAME:$VERSION..."
+
+docker push "$ORG/$APP_NAME:$VERSION"
+docker push "$ORG/$APP_NAME:latest"
