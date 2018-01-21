@@ -208,6 +208,31 @@ rm $APPS_PATH/duct-tape.domainnamehere.com/shared_volume/$FILE
 ```
 
 
+# docker-compose.yml
+
+The `docker-compose.yml` file used to deploy this application is rather simple:
+
+> **Note:** As described above, I have a `config` and `shared_volume` directory
+> in the host server's "application directory" (see above).
+
+```
+version: '3'
+services:
+  server:
+    image: tomkersten/duct-tape
+    expose:
+      - 9000
+    restart: always
+    volumes:
+      - ./config:/opt/app/config:ro
+      - ./shared_volume:/opt/app/shared_volume:rw
+```
+
+> **Note:** _Technically_ I have a few other directives in mine, but they
+> are all related to things for an nginx/Let's Encrypt setup I use that is
+> irrelevant to this discussion/example. I removed those lines to avoid
+> confusion...
+
 ## Summary
 
 Obviously this all makes some assumptions about my setup, but you can easily
