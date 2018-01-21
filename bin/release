@@ -38,14 +38,15 @@ function np {
     preset=`conventional-commits-detector` &&
     bump=`conventional-recommended-bump -p angular` &&
     npm --no-git-tag-version version ${1:-$bump} &>/dev/null &&
-    conventional-changelog -n ./bin/conventional_changelog_config.json -i CHANGELOG.md -s -p ${2:-$preset} &&
+    conventional-changelog -i CHANGELOG.md -s -p ${2:-$preset} &&
     git add CHANGELOG.md &&
     version=`cat package.json | json version` &&
     git commit -m"docs(CHANGELOG): $version" &&
     mv -f _package.json package.json &&
+    git co package-lock.json &&
     npm version ${1:-$bump} -m "chore(release): %s"
     git push --follow-tags &&
-    conventional-github-releaser -n ./bin/conventional_changelog_config.json -p ${2:-$preset}
+    conventional-github-releaser -p ${2:-$preset}
     #npm publish
 }
 
