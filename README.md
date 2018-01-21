@@ -187,11 +187,19 @@ The `bin/deployContainers` script looks like this:
 APPS_PATH=/some/directory/with/apps
 FILE=$1
 
+# If a `deploy` script exists at the specified application's
+# `bin` directory...
 if [ -e $APPS_PATH/$FILE/bin/deploy ]
 then
+  # Announce that we are executing it...
   echo "Executing $APPS_PATH/$FILE/bin/deploy"
+
+  # ...and then execute it
   $APPS_PATH/$FILE/bin/deploy
 else
+  # Throw something in the log so we know some activity took place...
+  # for an application that does not appear to either exist or be
+  # properly set up.
   echo "'$FILE' does not appear to be a site set up to automatically deploy"
 fi
 
