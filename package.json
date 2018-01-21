@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "Naive approach to enabling communication from inside Docker container to a the host machine for things like automatic deployment.",
   "repository": "https://github.com/tomkersten/duct_tape.git",
+  "dockerHubOrg": "tomkersten",
   "main": "index.js",
   "author": "Tom Kersten <me@tomkersten.com> (https://tomkersten.com/)",
   "scripts": {
